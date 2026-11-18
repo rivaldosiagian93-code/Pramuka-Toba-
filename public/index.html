@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#143d2c" />
+  <meta name="description" content="Portal komunitas kegiatan dan pembelajaran Pramuka Toba, Sumatera Utara." />
+  <title>Pramuka Toba | Bertumbuh Bersama, Mengabdi Bersama</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/tunas-kelapa.svg" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div id="loading-screen" class="loading-screen" role="status" aria-label="Memuat Pramuka Toba">
+    <div class="loading-orbit"><img src="/assets/tunas-kelapa.svg" alt="Lambang tunas kelapa" class="loading-mark" /></div>
+    <p>PRAMUKA <strong>TOBA</strong></p>
+    <span>Siap bertumbuh, siap mengabdi</span>
+    <div class="loading-progress" aria-hidden="true"><i></i></div>
+  </div>
+
+  <header class="header" id="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#beranda" aria-label="Pramuka Toba, kembali ke beranda">
+        <span class="brand-icon"><img src="/assets/tunas-kelapa.svg" alt="" /></span>
+        <span class="brand-word">PRAMUKA <strong>TOBA</strong><small>PORTAL KEGIATAN & BELAJAR</small></span>
+      </a>
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Buka menu navigasi"><span></span><span></span><span></span></button>
+      <nav class="nav" id="main-nav" aria-label="Navigasi utama">
+        <a href="#beranda" data-nav="beranda">Beranda</a>
+        <a href="#kegiatan" data-nav="kegiatan">Kegiatan</a>
+        <a href="#dkc" data-nav="dkc">DKC</a>
+        <a href="#buku" data-nav="buku">Buku Pramuka</a>
+        <span class="nav-auth" id="nav-auth"><a class="nav-login" href="#login">Masuk / Daftar <span aria-hidden="true">↗</span></a></span>
+      </nav>
+    </div>
+  </header>
+
+  <main id="app" class="main" tabindex="-1" aria-live="polite">
+    <section class="container" style="padding-block: 100px"><div class="skeleton" style="height:360px"></div></section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-top">
+      <div class="footer-about">
+        <div class="footer-brand"><span class="brand-icon"><img src="/assets/tunas-kelapa.svg" alt="" /></span><span>PRAMUKA <strong>TOBA</strong></span></div>
+        <p>Ruang berbagi informasi kegiatan dan pembelajaran kepramukaan yang relevan bagi Kabupaten Toba.</p>
+      </div>
+      <div class="footer-links"><strong>Jelajahi</strong><a href="#beranda">Beranda</a><a href="#kegiatan">Kegiatan</a><a href="#dkc">DKC Toba</a><a href="#buku">Buku Pramuka</a></div>
+      <div class="footer-links"><strong>Rujukan</strong><a href="https://pramuka.or.id/" target="_blank" rel="noopener noreferrer">Kwartir Nasional ↗</a><a href="https://pramuka.or.id/peraturan/" target="_blank" rel="noopener noreferrer">Pedoman resmi ↗</a><a href="#dkc">Hubungi DKC</a></div>
+    </div>
+    <div class="container footer-bottom"><span>© <span id="year"></span> Pramuka Toba · Portal komunitas.</span><span>Prototipe independen. Bukan situs resmi Kwarcab sampai memperoleh persetujuan.</span></div>
+  </footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
