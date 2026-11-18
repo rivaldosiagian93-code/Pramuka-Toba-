@@ -1,0 +1,14 @@
+{
+  "name": "pramuka-toba-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Portal informasi kegiatan dan pembelajaran Pramuka Toba",
+  "engines": { "node": ">=24.15.0" },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test tests/*.test.js",
+    "make-admin": "node scripts/promote-admin.js"
+  }
+}
