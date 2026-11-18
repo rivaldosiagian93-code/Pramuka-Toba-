@@ -1,6 +1,6 @@
 import http from 'node:http';
 import { readFileSync, existsSync } from 'node:fs';
-import { resolve, join, extname } from 'node:path';
+import { resolve, join, extname, sep } from 'node:path';
 import { randomUUID, timingSafeEqual } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { openDatabase } from './db.js';
@@ -311,7 +311,7 @@ export function createApp({ databasePath = process.env.DATABASE_PATH || resolve(
       const allowed=pathname==='/index.html'||pathname==='/style.css'||pathname==='/app.js'||/^\/assets\/[a-zA-Z0-9._-]+$/.test(pathname);
       if(!allowed)fail(404,'Halaman tidak ditemukan.');
       const file=resolve(STATIC_ROOT,'.'+pathname);
-      if(!file.startsWith(STATIC_ROOT+'/') || !existsSync(file))fail(404,'File tidak ditemukan.');
+      if(!file.startsWith(STATIC_ROOT+sep) || !existsSync(file))fail(404,'File tidak ditemukan.');
       const bytes=readFileSync(file);
       const type=TYPES[extname(file)]||'application/octet-stream';
       res.writeHead(200,{'content-type':type,'cache-control':secure?'public, max-age=3600':'no-cache'});
