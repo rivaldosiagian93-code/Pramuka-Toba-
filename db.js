@@ -35,6 +35,67 @@ const materialsSeed = [
   ['Garuda','Keteladanan dan pengabdian Garuda','Menghubungkan kecakapan dengan perilaku.',`Capaian kecakapan perlu tercermin dalam perilaku sehari-hari, termasuk disiplin, saling menolong, dan kesediaan menjadi teladan.\nLatihan: buat rencana tindakan nyata yang bermanfaat bagi sekolah atau lingkungan.`,GARUDA]
 ];
 
+const additionalMaterialsSeed = [
+  ['Umum','Trisatya dan Dasadarma dalam tindakan','Menghubungkan kode kehormatan dengan keputusan sehari-hari.',`Kode kehormatan menjadi pedoman untuk mengambil keputusan dan memperlakukan orang lain. Pelajari rumusan yang berlaku melalui pembina dan dokumen resmi, lalu bahas maknanya dengan contoh yang dekat dengan kehidupan anggota.
+Latihan: pilih satu nilai, ceritakan situasi ketika nilai itu diperlukan, dan tuliskan tindakan yang dapat dilakukan.`,OFFICIAL_RULES],
+  ['Umum','Belajar dengan metode kepramukaan','Memahami belajar melalui praktik, kerja sama, dan refleksi.',`Kegiatan kepramukaan memberi kesempatan untuk mencoba keterampilan, bekerja dalam kelompok, dan belajar dari pengalaman. Pembina menyesuaikan metode serta tanggung jawab dengan usia dan kemampuan peserta.
+Latihan: setelah sebuah permainan atau proyek, diskusikan apa yang dipelajari, apa yang berjalan baik, dan apa yang ingin dicoba berikutnya.`,OFFICIAL_RULES],
+  ['Umum','Merancang latihan yang bermakna','Menyusun tujuan, kegiatan, keselamatan, dan evaluasi latihan.',`Latihan yang baik memiliki tujuan belajar yang jelas, kegiatan yang sesuai usia, perlengkapan yang memadai, dan pendampingan yang tepat. Sediakan waktu untuk peserta mencoba, bertanya, dan merefleksikan hasil.
+Latihan: buat rancangan satu pertemuan, termasuk tujuan, alur kegiatan, kebutuhan alat, dan cara mengevaluasinya bersama pembina.`,OFFICIAL_RULES],
+  ['Umum','Pertolongan pertama: utamakan keselamatan','Mengenali batas kemampuan dan cara meminta bantuan.',`Saat seseorang cedera atau sakit, utamakan keamanan diri dan lingkungan, segera beri tahu pembina atau orang dewasa yang bertanggung jawab, dan hubungi layanan darurat setempat bila diperlukan. Jangan melakukan tindakan di luar kemampuan atau pelatihan.
+Latihan: bersama pembina, cari tahu nomor darurat yang berlaku di daerah dan susun informasi yang perlu disampaikan ketika meminta bantuan. Materi ini bukan pengganti pelatihan pertolongan pertama.`,OFFICIAL_RULES],
+  ['Umum','Etika digital dan perlindungan data','Berkomunikasi dan membagikan dokumentasi dengan bertanggung jawab.',`Informasi, foto, dan lokasi kegiatan dapat mengungkap identitas atau keberadaan seseorang. Minta izin sebelum membagikan dokumentasi, khususnya yang menampilkan anak, dan hindari menyebarkan data pribadi atau kabar yang belum diperiksa.
+Latihan: tinjau contoh pengumuman kegiatan dan tandai informasi yang perlu dikonfirmasi atau disamarkan.`,OFFICIAL_RULES],
+  ['Umum','Menjaga alam saat berkegiatan','Mengurangi dampak kegiatan terhadap lingkungan.',`Rencanakan kegiatan agar sampah, kebisingan, dan kerusakan alam dapat dikurangi. Patuhi aturan lokasi, hormati satwa dan tumbuhan, serta bawa kembali sampah sesuai arahan pengelola.
+Latihan: sebelum kegiatan, buat daftar tindakan sederhana untuk menjaga lokasi dan tetapkan siapa yang memeriksa kebersihannya setelah kegiatan.`,OFFICIAL_RULES],
+  ['Siaga','Permainan yang aman dan menyenangkan','Memilih permainan yang sesuai usia dan melibatkan semua peserta.',`Permainan Siaga sebaiknya memiliki aturan sederhana, alat yang aman, batas area yang jelas, dan pendampingan pembina. Setiap anak perlu mendapat kesempatan berpartisipasi tanpa dipermalukan atau dipaksa.
+Latihan: rancang permainan kerja sama, jelaskan aturan dan tanda berhenti, lalu evaluasi bersama apakah semua teman merasa aman dan dilibatkan.`,OFFICIAL_RULES],
+  ['Siaga','Kerja sama dan tanggung jawab dalam barung','Belajar berbagi tugas dan saling membantu.',`Dalam barung, setiap anggota dapat berlatih menyelesaikan tugas sederhana bersama kelompok. Tugas perlu dibagi dengan adil dan disesuaikan dengan kemampuan masing-masing.
+Latihan: lakukan tugas merapikan perlengkapan bersama, lalu ceritakan bagaimana setiap orang membantu kelompok.`,GOLONGAN],
+  ['Siaga','Berani menyampaikan pendapat','Menyampaikan kebutuhan dan mendengarkan teman dengan sopan.',`Menyampaikan pendapat dapat dilakukan dengan kalimat sederhana dan sikap saling menghargai. Mendengarkan teman sama pentingnya dengan berbicara; tidak seorang pun boleh diejek karena bertanya atau berbeda pendapat.
+Latihan: bergiliran menceritakan satu hal yang disukai dari kegiatan dan satu usul agar kegiatan berikutnya lebih baik.`,OFFICIAL_RULES],
+  ['Siaga','Siap mengikuti latihan','Membiasakan persiapan diri sebelum kegiatan.',`Sebelum latihan, periksa jadwal dan perlengkapan yang diminta pembina bersama orang tua atau pendamping. Beri tahu pembina jika merasa tidak sehat, memiliki kebutuhan khusus, atau perlu bantuan.
+Latihan: buat daftar periksa sederhana untuk latihan mingguan dan minta pendamping membantu menyiapkannya.`,OFFICIAL_RULES],
+  ['Penggalang','Perawatan perlengkapan regu','Memeriksa, menggunakan, dan menyimpan alat dengan tertib.',`Perlengkapan regu perlu diperiksa sebelum dan sesudah digunakan. Gunakan alat sesuai fungsinya, laporkan kerusakan kepada pembina, dan jangan memakai alat berbahaya tanpa izin serta pengawasan.
+Latihan: buat daftar inventaris sederhana berisi nama alat, kondisi, dan tempat penyimpanannya.`,OFFICIAL_RULES],
+  ['Penggalang','Merencanakan perjalanan dengan peta','Menggunakan peta dan rencana rute dalam kegiatan yang diawasi.',`Sebelum perjalanan, pelajari peta dan rute bersama pembina, tentukan batas area, titik berkumpul, waktu kembali, serta cara berkomunikasi. Peta atau kompas tidak menggantikan pendampingan dan izin yang diperlukan.
+Latihan: tandai rute pendek di lingkungan yang dikenal bersama pembina, lalu cocokkan rencana dengan kondisi lapangan tanpa berpisah dari kelompok.`,OFFICIAL_RULES],
+  ['Penggalang','Persiapan menghadapi perubahan cuaca','Mengenali kebutuhan perlindungan dan mengikuti arahan pembina.',`Cuaca dapat berubah selama kegiatan. Periksa prakiraan melalui sumber yang dapat dipercaya sebelum berangkat, bawa perlengkapan yang diminta, dan ikuti keputusan pembina untuk menunda atau menghentikan kegiatan jika kondisi tidak aman.
+Latihan: susun daftar perlengkapan untuk kegiatan luar ruang berdasarkan prakiraan dan lokasi.`,OFFICIAL_RULES],
+  ['Penggalang','Peran anggota saat keadaan darurat','Menjaga kelompok tetap bersama dan menyampaikan informasi.',`Dalam keadaan darurat, segera beri tahu pembina, ikuti instruksi petugas, dan tetap bersama kelompok di tempat aman. Jangan mencoba penyelamatan atau pertolongan yang berisiko tanpa pelatihan dan arahan yang sesuai.
+Latihan: melalui simulasi yang dipandu pembina, berlatih menyebutkan lokasi, kondisi yang terlihat, dan jenis bantuan yang dibutuhkan.`,OFFICIAL_RULES],
+  ['Penggalang','Pionering secara bertahap dan aman','Memahami tujuan ikatan dan batas aman latihan pionering.',`Pionering melatih perencanaan dan kerja sama menggunakan tali serta tongkat. Mulailah dari model kecil dan latihan dasar di bawah pengawasan pembina. Hasil latihan tidak boleh digunakan untuk menopang orang atau beban berbahaya tanpa rancangan dan pengawasan tenaga kompeten.
+Latihan: buat model sederhana di atas tanah, periksa ikatannya bersama pembina, dan jelaskan batas penggunaan model tersebut.`,OFFICIAL_RULES],
+  ['Penggalang','Berjalan di alam dengan tanggung jawab','Menjaga kelompok dan lingkungan selama kegiatan luar ruang.',`Tetapkan aturan perjalanan, pendamping, rute, waktu, titik berkumpul, dan cara meminta bantuan sebelum berangkat. Tetap dalam kelompok, patuhi pengelola lokasi, dan hentikan kegiatan bila kondisi berubah menjadi tidak aman.
+Latihan: buat kesepakatan regu untuk perjalanan singkat di area yang dikenal dan didampingi pembina.`,OFFICIAL_RULES],
+  ['Penggalang','Mengurangi sampah saat perkemahan','Membiasakan perkemahan yang tertib dan menjaga lokasi.',`Gunakan perlengkapan secukupnya, ikuti aturan pengelola tentang sampah dan api, serta pastikan lokasi ditinggalkan sesuai kesepakatan. Jangan mengambil atau merusak tumbuhan dan jangan memberi makan satwa liar.
+Latihan: rencanakan kebutuhan perkemahan dan cara mengelola sampah bersama pembina sebelum keberangkatan.`,OFFICIAL_RULES],
+  ['Penegak','Manajemen risiko kegiatan','Mengidentifikasi bahaya dan menyepakati langkah pencegahan.',`Sebelum kegiatan, diskusikan bahaya yang mungkin muncul dari lokasi, cuaca, alat, transportasi, dan kondisi peserta. Tentukan pendamping yang bertanggung jawab, cara komunikasi, serta kondisi yang mengharuskan kegiatan dihentikan.
+Latihan: isi daftar risiko untuk kegiatan simulasi dan tinjau rencananya dengan pembina sebelum pelaksanaan.`,OFFICIAL_RULES],
+  ['Penegak','Anggaran kegiatan yang transparan','Merencanakan biaya dan melaporkan penggunaan dana.',`Anggaran mencatat kebutuhan, perkiraan biaya, sumber dana, penanggung jawab, dan bukti pengeluaran. Keputusan keuangan sebaiknya diketahui pihak berwenang dan dilaporkan dengan jelas kepada anggota serta mitra.
+Latihan: buat anggaran sederhana untuk kegiatan rekaan, bandingkan perkiraan dengan bukti pengeluaran, dan catat sisa dana secara terbuka.`,OFFICIAL_RULES],
+  ['Penegak','Musyawarah dan penyelesaian perbedaan','Mendengarkan pandangan anggota sebelum menyepakati keputusan.',`Musyawarah yang sehat memberi ruang bicara, mencatat pilihan, dan mencari keputusan sesuai tata tertib organisasi. Jika terjadi konflik, fokus pada masalah dan dampaknya, bukan menyerang pribadi; libatkan pembina bila diperlukan.
+Latihan: lakukan simulasi memilih program kerja dengan aturan giliran bicara dan rangkuman keputusan.`,OFFICIAL_RULES],
+  ['Penegak','Berbicara di depan umum','Menyampaikan informasi dengan jelas dan bertanggung jawab.',`Presentasi yang baik memiliki tujuan, susunan yang mudah diikuti, dan informasi yang dapat dipertanggungjawabkan. Gunakan gambar atau kutipan hanya dengan izin yang sesuai dan sebutkan sumbernya.
+Latihan: sampaikan laporan kegiatan singkat, lalu minta umpan balik mengenai kejelasan, ketepatan informasi, dan cara penyampaian.`,OFFICIAL_RULES],
+  ['Penegak','Memeriksa informasi sebelum membagikan','Mengembangkan kebiasaan memeriksa sumber dan konteks.',`Sebelum membagikan pengumuman atau kabar, periksa siapa penerbitnya, kapan diterbitkan, apa bukti pendukungnya, dan apakah sumber lain yang tepercaya mengonfirmasi informasi tersebut. Jangan menyimpulkan kehadiran, prestasi, atau jadwal tanpa bukti.
+Latihan: bandingkan dua pengumuman dan catat fakta yang terverifikasi, informasi yang belum pasti, serta sumber yang perlu ditanyakan.`,OFFICIAL_RULES],
+  ['Pandega','Memetakan kebutuhan bersama masyarakat','Merancang pengabdian berdasarkan masukan pihak yang terdampak.',`Mulailah dengan mendengarkan warga dan calon mitra, bukan menganggap kita sudah mengetahui kebutuhan mereka. Sepakati masalah, tujuan, batas kegiatan, dan cara meminta persetujuan atas dokumentasi atau data.
+Latihan: buat daftar pertanyaan terbuka untuk konsultasi awal dan rencana membagikan kembali hasil diskusi kepada warga.`,OFFICIAL_RULES],
+  ['Pandega','Merancang kegiatan yang inklusif','Membuka partisipasi dengan memperhatikan kebutuhan peserta.',`Periksa apakah waktu, lokasi, komunikasi, dan perlengkapan memungkinkan peserta berpartisipasi. Tanyakan kebutuhan secara hormat, sediakan cara menyampaikan kendala, dan jangan meminta seseorang membuka informasi pribadi di depan umum.
+Latihan: tinjau rancangan kegiatan dan identifikasi hambatan akses yang dapat dikurangi bersama peserta dan pembina.`,OFFICIAL_RULES],
+  ['Pandega','Fasilitasi belajar sebaya','Mendampingi diskusi tanpa mengambil alih proses belajar.',`Fasilitator membantu peserta memahami tujuan, berbagi pengalaman, dan merangkum hasil. Ia perlu memberi ruang bicara yang adil, menjaga suasana aman, serta meminta bantuan pembina ketika muncul persoalan di luar kewenangannya.
+Latihan: pimpin diskusi kelompok kecil, catat cara melibatkan peserta yang belum berbicara, lalu refleksikan hasilnya bersama pembina.`,OFFICIAL_RULES],
+  ['Pandega','Mengukur hasil kegiatan pengabdian','Membedakan keluaran kegiatan dari perubahan yang ingin dicapai.',`Tentukan indikator yang realistis sebelum kegiatan, seperti jumlah peserta atau kegiatan yang selesai, lalu catat bukti dan umpan balik dengan izin yang sesuai. Angka kegiatan saja tidak membuktikan dampak jangka panjang.
+Latihan: buat tabel tujuan, indikator, sumber bukti, dan cara meminta masukan dari mitra.`,OFFICIAL_RULES],
+  ['Pandega','Kemitraan dan pertanggungjawaban','Menjaga komunikasi, kesepakatan, dan laporan kepada mitra.',`Sepakati peran, jadwal, kebutuhan, penggunaan sumber daya, dan cara mengambil keputusan dengan mitra. Sampaikan perubahan secara terbuka dan laporkan hasil maupun kendala tanpa melebih-lebihkan capaian.
+Latihan: buat ringkasan kesepakatan kemitraan untuk proyek simulasi dan minta rekan memeriksa apakah tanggung jawab setiap pihak sudah jelas.`,OFFICIAL_RULES],
+  ['Garuda','Menyusun rencana belajar kecakapan','Membuat target perkembangan berdasarkan pedoman yang berlaku.',`Persyaratan dan proses penilaian kecakapan mengikuti pedoman resmi terbaru serta arahan pembina. Buat target belajar bertahap sesuai golongan, kemampuan, dan kesempatan latihan; jangan menganggap daftar dari situs lain sebagai pengganti SKU atau penilaian resmi.
+Latihan: susun rencana belajar bersama pembina, catat bukti proses yang wajar, dan jadwalkan waktu untuk meninjau kemajuan.`,GARUDA],
+  ['Garuda','Menyajikan portofolio dengan etis','Mendokumentasikan proses belajar tanpa membuka data orang lain.',`Portofolio dapat membantu menceritakan proses belajar, tetapi setiap bukti harus jujur, relevan, dan tidak menggantikan penilaian resmi. Minta izin sebelum menggunakan foto, nama, atau karya orang lain, terutama anak-anak.
+Latihan: tinjau portofolio bersama pembina dan samarkan informasi pribadi yang tidak diperlukan sebelum dibagikan.`,GARUDA]
+];
+
 const eventsSeed = [
   {
     title:'Peringatan Hari Pramuka dan Pelantikan Pengurus Saka POM di Toba',
@@ -105,9 +166,10 @@ export function openDatabase(databasePath) {
       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`);
     for (const e of eventsSeed) stmt.run(randomUUID(), e.title,e.scope,e.date,e.time,e.location,e.organizer,e.description,e.source_url,1,1,0,null);
   }
-  if (db.prepare('SELECT COUNT(*) AS n FROM materials').get().n === 0) {
-    const stmt = db.prepare(`INSERT INTO materials (id,category,title,summary,content,source_url,published) VALUES (?,?,?,?,?,?,1)`);
-    for (const [category,title,summary,content,url] of materialsSeed) stmt.run(randomUUID(),category,title,summary,content,url);
+  const hasMaterial = db.prepare('SELECT 1 FROM materials WHERE category=? AND title=? LIMIT 1');
+  const insertMaterial = db.prepare(`INSERT INTO materials (id,category,title,summary,content,source_url,published) VALUES (?,?,?,?,?,?,1)`);
+  for (const [category,title,summary,content,url] of [...materialsSeed,...additionalMaterialsSeed]) {
+    if (!hasMaterial.get(category,title)) insertMaterial.run(randomUUID(),category,title,summary,content,url);
   }
   for (const k of ['instagram','facebook','tiktok','youtube','whatsapp','email']) {
     db.prepare('INSERT OR IGNORE INTO settings (key,value) VALUES (?,?)').run(k,'');

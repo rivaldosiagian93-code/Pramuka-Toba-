@@ -10,7 +10,7 @@ Prototipe website komunitas informasi kegiatan dan pembelajaran Pramuka Kabupate
 - Kegiatan: pencarian, penyaringan waktu dan cakupan Toba / Sumut / Nasional, detail, link sumber.
 - Registrasi akun, login, logout, cookie sesi HttpOnly, password scrypt + garam unik.
 - Klik **Daftar Kegiatan** diarahkan login bila belum masuk, pendaftaran tercatat, kuota dan pendaftaran ganda dicegah.
-- Buku Pramuka hanya dapat dibuka setelah login; 26 materi awal (ringkasan orisinal) mencakup Umum, Siaga, Penggalang, Penegak, Pandega, Garuda.
+- Buku Pramuka hanya dapat dibuka setelah login; 55 topik kurasi awal berupa ringkasan orisinal mencakup Umum, Siaga, Penggalang, Penegak, Pandega, dan Garuda. Isi dan latihan dibaca langsung di website; sumber ditampilkan sebagai teks, bukan tautan keluar. Koleksi ini bukan salinan seluruh internet atau pengganti pedoman resmi.
 - DKC: Instagram, Facebook, TikTok, YouTube, WhatsApp dan email (kosong sampai divalidasi admin).
 - Akun Saya: riwayat dan status pendaftaran.
 - Panel admin: tambah/edit kegiatan, draf/publikasi, buka/tutup pendaftaran, status peserta, tambah/edit materi, kontak DKC.
@@ -80,6 +80,7 @@ npm run dev
 ```
 
 Database akan dibuat otomatis dalam `data/pramuka-toba.sqlite`. **Jangan upload database ini ke GitHub.** Folder `data/` sudah masuk `.gitignore`.
+Saat server dijalankan, topik bawaan yang belum ada akan ditambahkan tanpa menimpa materi atau perubahan yang sudah tersimpan.
 
 ## D. Buat akun admin pertama
 

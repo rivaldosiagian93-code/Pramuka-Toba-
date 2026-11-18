@@ -61,7 +61,7 @@ function home(){
         <div class="hero-actions"><a href="#kegiatan" class="button gold">Jelajahi Kegiatan <span aria-hidden="true">↗</span></a><a href="#buku" class="button outline">Buku Pramuka <span aria-hidden="true">→</span></a></div>
       </div><div class="hero-illustration"><img src="/assets/hero-toba.svg" alt="Ilustrasi alam pegunungan dan danau di kawasan Toba dengan tenda perkemahan" /><div class="hero-caption">Semangat kepramukaan dari Toba</div></div></div>
     <div class="stat-strip"><div class="stat"><span class="stat-icon">✦</span><div><b>${state.events.length}</b><span>Publikasi kegiatan bersumber</span></div></div>
-      <div class="stat"><span class="stat-icon">▤</span><div><b>${state.materialsCount}+</b><span>Topik pembelajaran awal</span></div></div>
+      <div class="stat"><span class="stat-icon">▤</span><div><b>${state.materialsCount}</b><span>Materi terbit</span></div></div>
       <div class="stat"><span class="stat-icon">◎</span><div><b>3 cakupan</b><span>Toba, Sumut, dan Nasional</span></div></div></div>
     </div>
     <section class="section container"><div class="section-head"><div><span class="eyebrow">AGENDA KE DEPAN</span><h2 class="section-title">Kegiatan yang akan datang</h2><p class="section-subtitle">Pendaftaran dibuka setelah informasi acara diterbitkan dan dikonfirmasi oleh pengelola.</p></div><a class="link-inline" href="#kegiatan">Semua kegiatan ↗</a></div>
@@ -137,8 +137,8 @@ async function bookPage(){
   await ensureMaterials();
   const list=state.materials.filter(m=>(state.bookCategory==='Semua'||m.category===state.bookCategory)&&
     (m.title+' '+m.summary).toLowerCase().includes(state.bookQuery.toLowerCase()));
-  return `${bannerHead('Buku Pramuka Digital','Materi pengantar kepramukaan yang disusun menurut golongan, dengan tautan rujukan resmi untuk pendalaman.','Buku Pramuka')}
-    <section class="container" style="padding-bottom:65px"><div class="notice green" style="margin-bottom:23px">Garuda adalah jenjang penghargaan kecakapan yang dapat dicapai di masing-masing golongan, bukan golongan usia tersendiri. Materi di sini berupa ringkasan awal, bukan pengganti buku SKU/SKK resmi.</div>
+  return `${bannerHead('Buku Pramuka Digital','Baca materi dan latihan langsung di website ini, dikelompokkan menurut golongan.','Buku Pramuka')}
+    <section class="container" style="padding-bottom:65px"><div class="notice green" style="margin-bottom:23px">Koleksi ini merupakan rangkuman pilihan, bukan seluruh isi internet atau pengganti pedoman resmi. Garuda adalah jenjang penghargaan kecakapan, bukan golongan usia tersendiri. Periksa SKU/SKK dan petunjuk terbaru bersama pembina.</div>
       <div class="library-tabs">${CATEGORY.map(x=>`<button class="category-btn ${state.bookCategory===x?'active':''}" type="button" data-category="${h(x)}">${h(x)}</button>`).join('')}</div>
       <div class="filters"><label class="search"><span>⌕</span><input class="text-input" id="material-search" value="${h(state.bookQuery)}" placeholder="Cari materi pembelajaran..." aria-label="Cari materi" /></label><span class="small subtle">${list.length} materi ditemukan</span></div>
       <div id="material-results">${materialCards(list)}</div></section>`;
@@ -148,10 +148,10 @@ async function materialDetail(id){
   if(!state.user){go('login?next=buku');return '';}
   let material;
   try{material=(await api(`/api/materials/${encodeURIComponent(id)}`)).material;}catch{return notFound('Materi tidak ditemukan');}
-  return `${bannerHead('Ruang belajar','Pelajari materi ringkas dan lanjutkan pendalaman menggunakan pedoman kepramukaan resmi.','Materi')}
+  return `${bannerHead('Ruang belajar','Isi materi tersedia langsung di website Pramuka Toba.','Materi')}
     <article class="container reader"><div class="paper"><a class="link-inline" href="#buku">← Kembali ke Buku Pramuka</a><div style="margin-top:25px"><span class="pill">${h(material.category)}</span></div>
       <h1>${h(material.title)}</h1><p class="section-subtitle">${h(material.summary)}</p><div class="reader-text">${material.content.split(/\n+/).filter(Boolean).map(p=>`<p>${h(p)}</p>`).join('')}</div>
-      ${material.source_url?`<div class="source"><span class="data-label">Rujukan utama</span><a class="source-link" href="${href(material.source_url)}" rel="noopener noreferrer" target="_blank">Buka dokumen atau laman referensi resmi ↗</a></div>`:''}
+      ${material.source_url?`<div class="source"><span class="data-label">Rujukan sumber (teks, tidak membuka situs lain)</span><p style="font-size:12px;line-height:1.6;color:var(--muted);overflow-wrap:anywhere">${h(material.source_url)}</p></div>`:''}
       <div class="notice" style="margin-top:23px">Gunakan pembinaan dan petunjuk resmi yang masih berlaku ketika melaksanakan praktik atau menempuh syarat kecakapan. Materi ini merupakan pengantar, bukan salinan buku resmi.</div></div></article>`;
 }
 async function accountPage(){

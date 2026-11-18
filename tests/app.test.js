@@ -1,5 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { openDatabase } from '../db.js';
 import { createApp } from '../server.js';
 
 async function setup(t) {
@@ -50,9 +54,33 @@ test('buku materi dilindungi login dan registrasi akun aktif', async t => {
   assert.equal(registered.body.user.role, 'user');
   const materials = await req('GET','/api/materials');
   assert.equal(materials.status, 200);
-  assert.ok(materials.body.materials.length >= 20);
+  assert.ok(materials.body.materials.length >= 50);
   assert.ok(materials.body.materials.some(x=>x.category==='Garuda'));
+  assert.ok(materials.body.materials.some(x=>x.title==='Manajemen risiko kegiatan'));
   assert.equal((await req('GET','/api/admin/overview')).status,403);
+});
+
+test('database lama mendapat topik bawaan yang belum ada tanpa menimpa konten', t => {
+  const directory = mkdtempSync(join(tmpdir(), 'pramuka-toba-'));
+  const databasePath = join(directory, 'content.sqlite');
+  let db = openDatabase(databasePath);
+  t.after(() => {
+    if (db) db.close();
+    rmSync(directory, { recursive: true, force: true });
+  });
+
+  const existing = db.prepare("SELECT id FROM materials WHERE title='Sejarah dan tujuan Gerakan Pramuka'").get();
+  db.prepare('DELETE FROM materials WHERE id<>?').run(existing.id);
+  db.prepare("UPDATE materials SET content='Konten admin',published=0 WHERE id=?").run(existing.id);
+  db.close();
+  db = null;
+
+  db = openDatabase(databasePath);
+  assert.equal(db.prepare('SELECT content FROM materials WHERE id=?').get(existing.id).content, 'Konten admin');
+  assert.equal(db.prepare('SELECT published FROM materials WHERE id=?').get(existing.id).published, 0);
+  assert.ok(db.prepare('SELECT COUNT(*) AS n FROM materials').get().n >= 50);
+  db.close();
+  db = null;
 });
 
 test('CSRF wajib untuk operasi tulis dan tidak boleh daftar kegiatan lampau', async t => {
