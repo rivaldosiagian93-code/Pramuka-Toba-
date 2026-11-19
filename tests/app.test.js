@@ -148,6 +148,18 @@ test('halaman utama dan aset frontend tersedia dari server', async t => {
   }
 });
 
+test('foto kegiatan lokal tersedia sebagai gambar JPEG yang valid', async t => {
+  const { client } = await setup(t);
+  for (const path of ['/assets/scout-camp.jpg','/assets/scout-drill.jpg']) {
+    const response = await fetch(client.base+path);
+    assert.equal(response.status,200,path);
+    assert.ok((response.headers.get('content-type')||'').includes('image/jpeg'),path);
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    assert.deepEqual(Array.from(bytes.subarray(0,3)),[0xff,0xd8,0xff],path);
+    assert.ok(bytes.length>10000,path);
+  }
+});
+
 test('logout benar-benar mematikan sesi dan akses materi',async t=>{
   const { req }=await setup(t);
   assert.equal((await req('POST','/api/auth/register',user)).status,201);

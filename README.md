@@ -179,7 +179,9 @@ Pramuka-Toba-Website/
 │   ├── app.js                   # Navigasi, halaman, form, admin
 │   └── assets/
 │       ├── tunas-kelapa.svg     # Ilustrasi tunas kelapa
-│       └── hero-toba.svg        # Ilustrasi alam Toba orisinal
+│       ├── hero-toba.svg        # Ilustrasi alam Toba orisinal
+│       ├── scout-camp.jpg       # Foto ilustrasi kegiatan Pramuka
+│       └── scout-drill.jpg      # Foto ilustrasi baris-berbaris
 ├── scripts/
 │   └── promote-admin.js         # Promosikan pengguna ke admin dari terminal
 ├── tests/
@@ -198,3 +200,8 @@ Pramuka-Toba-Website/
 ### Catatan hak cipta dan identitas
 
 Lambang dalam `public/assets/tunas-kelapa.svg` merupakan **ilustrasi SVG sederhana**, bukan reproduksi resmi bersertifikat. Ketika akan diluncurkan sebagai kanal resmi, ganti dengan file lambang identitas yang disetujui pengurus sesuai pedoman Gerakan Pramuka. Ilustrasi lanskap `hero-toba.svg` dibuat untuk proyek ini, bukan foto lokasi sebenarnya.
+
+Foto pada beranda dan kartu kegiatan hanya ilustrasi, **bukan dokumentasi kegiatan Pramuka Toba**. Berkas lokal merupakan thumbnail berukuran 1280 piksel dari Wikimedia Commons; kredit dan lisensi juga dicantumkan di tampilan foto:
+
+- `scout-camp.jpg` — “Kegiatan Pramuka di Candi Prambanan”, FAIZ DILA, [sumber di Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Kegiatan_Pramuka_di_Candi_Prambanan.jpg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Gambar dikecilkan menjadi thumbnail.
+- `scout-drill.jpg` — “Anak pramuka sedang melakukan gerakan baris berbaris”, Dicky Herlambang, [sumber di Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Anak_pramuka_sedang_melakukan_gerakan_baris_berbaris.jpg), [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). Gambar dikecilkan menjadi thumbnail.

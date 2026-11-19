@@ -11,7 +11,7 @@ const STATIC_ROOT = resolve(ROOT,'public');
 const SESSION_MS = 7*24*60*60*1000;
 const COOKIE_SESSION = 'pt_session';
 const COOKIE_CSRF = 'pt_csrf';
-const TYPES = { '.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.svg':'image/svg+xml', '.png':'image/png', '.ico':'image/x-icon' };
+const TYPES = { '.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.svg':'image/svg+xml', '.png':'image/png', '.jpg':'image/jpeg', '.jpeg':'image/jpeg', '.ico':'image/x-icon' };
 const scopes = ['Toba','Sumut','Nasional'];
 const categories = ['Umum','Siaga','Penggalang','Penegak','Pandega','Garuda'];
 class AppError extends Error { constructor(status, message){super(message);this.status=status;} }

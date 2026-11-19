@@ -64,6 +64,9 @@ body{background:var(--paper);color:var(--ink)}
 .image-caption{position:absolute;bottom:15px;left:18px;right:18px;max-width:400px;padding:12px 15px;background:#faf7f0;color:var(--ink);display:grid;gap:4px;border-radius:3px;box-shadow:0 8px 18px #24170d22}
 .image-caption small{font-size:8px;color:var(--forest);font-weight:800;letter-spacing:.06em}
 .image-caption strong{font-size:11px}
+.image-caption .photo-credit{font-size:9px;color:#644836}
+.photo-credit{display:block;text-decoration:underline;text-underline-offset:2px}
+.event-art .photo-credit{position:absolute;z-index:3;right:8px;bottom:8px;left:8px;width:fit-content;max-width:calc(100% - 16px);padding:5px 7px;border-radius:3px;background:rgba(24,30,24,.82);color:white;font-size:8px;line-height:1.4}
 .quick-links{display:grid;grid-template-columns:repeat(4,1fr);padding-block:17px;border-bottom:1px solid var(--line)}
 .quick-links a{display:grid;grid-template-columns:22px 1fr;column-gap:9px;align-content:center;padding:4px 16px;border-right:1px solid var(--line)}
 .quick-links a:first-child{padding-left:0}
