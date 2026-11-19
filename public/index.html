@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#143d2c" />
+  <meta name="theme-color" content="#38291f" />
   <meta name="description" content="Portal komunitas kegiatan dan pembelajaran Pramuka Toba, Sumatera Utara." />
   <title>Pramuka Toba | Bertumbuh Bersama, Mengabdi Bersama</title>
   <link rel="icon" type="image/svg+xml" href="/assets/tunas-kelapa.svg" />
@@ -17,19 +17,20 @@
     <div class="loading-progress" aria-hidden="true"><i></i></div>
   </div>
 
+  <div class="topline"><div class="container"><span>Satyaku Kudarmakan, Darmaku Kubaktikan</span><span>Ruang untuk belajar, berkarya, dan mengabdi</span></div></div>
   <header class="header" id="site-header">
     <div class="container nav-wrap">
       <a class="brand" href="#beranda" aria-label="Pramuka Toba, kembali ke beranda">
-        <span class="brand-icon"><img src="/assets/tunas-kelapa.svg" alt="" /></span>
-        <span class="brand-word">PRAMUKA <strong>TOBA</strong><small>PORTAL KEGIATAN & BELAJAR</small></span>
+        <span class="brand-word">PRAMUKA<small>PORTAL ANGGOTA & KWARTIR</small></span>
       </a>
       <button class="menu-toggle" id="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Buka menu navigasi"><span></span><span></span><span></span></button>
       <nav class="nav" id="main-nav" aria-label="Navigasi utama">
         <a href="#beranda" data-nav="beranda">Beranda</a>
-        <a href="#kegiatan" data-nav="kegiatan">Kegiatan</a>
-        <a href="#dkc" data-nav="dkc">DKC</a>
         <a href="#buku" data-nav="buku">Buku Pramuka</a>
-        <span class="nav-auth" id="nav-auth"><a class="nav-login" href="#login">Masuk / Daftar <span aria-hidden="true">↗</span></a></span>
+        <a href="#dkc" data-nav="dkc">DKC</a>
+        <a href="#kegiatan?filter=selesai" data-nav="kegiatan-selesai">Kegiatan berlalu</a>
+        <a href="#kegiatan?filter=mendatang" data-nav="kegiatan-mendatang">Kegiatan mendatang</a>
+        <span class="nav-auth" id="nav-auth"><a class="nav-account" href="#login">Akun Saya <span aria-hidden="true">♙</span></a></span>
       </nav>
     </div>
   </header>

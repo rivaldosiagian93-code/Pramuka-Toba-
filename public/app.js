@@ -38,52 +38,52 @@ function loaderHide(){const el=document.querySelector('#loading-screen');window.
 function updateNav(){
   const el=document.querySelector('#nav-auth');
   if(!el)return;
-  el.innerHTML=state.user?`<a href="#akun" class="nav-user">${h(state.user.name.split(' ')[0])}</a>${state.user.role==='admin'?'<a href="#admin" class="nav-user">Admin</a>':''}<button type="button" class="logout" data-action="logout">Keluar</button>`:
-    '<a class="nav-login" href="#login">Masuk / Daftar <span aria-hidden="true">↗</span></a>';
-  const key=location.hash.replace(/^#/,'').split(/[/?]/)[0]||'beranda';
-  document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('active',a.dataset.nav===key));
+  el.innerHTML=state.user?`<a href="#akun" class="nav-account">Akun Saya <span aria-hidden="true">♙</span></a>${state.user.role==='admin'?'<a href="#admin" class="nav-admin">Admin</a>':''}<button type="button" class="logout" data-action="logout">Keluar</button>`:
+    '<a class="nav-account" href="#login">Akun Saya <span aria-hidden="true">♙</span></a>';
+  const raw=location.hash.replace(/^#/,'');
+  const key=raw.split(/[/?]/)[0]||'beranda';
+  const activeKey=key==='kegiatan'?`kegiatan-${state.filter==='selesai'?'selesai':'mendatang'}`:key;
+  document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('active',a.dataset.nav===activeKey));
   document.querySelector('#main-nav')?.classList.remove('open');
   document.querySelector('#menu-toggle')?.setAttribute('aria-expanded','false');
 }
-function eventArt(e){return `<div class="event-art scope-${h(e.scope)}"><span class="pill">${h(e.scope==='Toba'?'KABUPATEN TOBA':e.scope==='Sumut'?'KWARDA SUMUT':'NASIONAL')}</span><span class="event-art-label">${h(e.scope==='Toba'?'Toba.':e.scope==='Sumut'?'Sumatera Utara.':'Indonesia.')}</span></div>`;}
+function eventArt(e){return `<div class="event-art scope-${h(e.scope)}"><img src="/assets/hero-toba.svg" alt="" /><span class="pill">${h(e.scope==='Toba'?'KABUPATEN TOBA':e.scope==='Sumut'?'KWARDA SUMUT':'NASIONAL')}</span><span class="event-art-label">${h(e.scope==='Toba'?'Toba.':e.scope==='Sumut'?'Sumatera Utara.':'Indonesia.')}</span></div>`;}
 function eventCard(e){
   return `<article class="event-card">${eventArt(e)}<div class="event-body"><div class="event-date">${h(shortDate(e.date))}${e.time?' · '+h(e.time)+' WIB':''}</div><h3>${h(e.title)}</h3><p class="event-desc">${h(e.description)}</p><div class="event-meta"><span aria-hidden="true">⌖</span>${h(e.location)}</div><div class="event-card-bottom"><span class="pill ${upcoming(e)?'pill-gold':'pill-grey'}">${upcoming(e)?'Mendatang':'Sudah berlalu'}</span><a class="link-inline" href="#acara/${h(e.id)}">Detail ↗</a></div></div></article>`;
 }
 function empty(text,title='Belum ada kegiatan terverifikasi'){return `<div class="empty"><div class="empty-icon">✧</div><h3>${h(title)}</h3><p>${h(text)}</p></div>`;}
 function gridOrEmpty(list,text){return list.length?`<div class="cards">${list.map(eventCard).join('')}</div>`:empty(text);}
+function agendaRow(e){
+  const date=new Date(`${e.date}T12:00:00`);
+  return `<a class="agenda-row" href="#acara/${h(e.id)}"><span class="date-tile"><b>${date.toLocaleDateString('id-ID',{day:'2-digit'})}</b><small>${date.toLocaleDateString('id-ID',{month:'short'}).toUpperCase()}</small></span><span class="agenda-copy"><small>${h(e.scope==='Toba'?'KEGIATAN TOBA':e.scope==='Sumut'?'KWARDA SUMUT':'KEGIATAN NASIONAL')}</small><strong>${h(e.title)}</strong><span>${e.time?h(e.time)+' WIB · ':''}${h(e.location)}</span></span><span class="agenda-arrow" aria-hidden="true">↗</span></a>`;
+}
+function featuredEvent(e,label){
+  return `<article class="featured-event"><div class="featured-event-image">${eventArt(e)}</div><div class="featured-event-copy"><span class="eyebrow">${h(label)}</span><h2>${h(e.title)}</h2><p class="featured-meta">${h(dateId(e.date))}${e.time?' · '+h(e.time)+' WIB':''}</p><p>${h(e.location)}${e.organizer?' · '+h(e.organizer):''}</p><a class="button light-button" href="#acara/${h(e.id)}">Lihat informasi kegiatan <span aria-hidden="true">→</span></a></div></article>`;
+}
 function home(){
   const upcomingEvents=state.events.filter(upcoming).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,3);
   const past=state.events.filter(e=>!upcoming(e)).slice(0,3);
-  return `<div class="container hero-section"><div class="hero">
-      <div class="hero-copy"><span class="eyebrow">SATYAKU KUDARMAKAN, DARMAKU KUBAKTIKAN</span>
-        <h1>Satu semangat.<br><em>Banyak cerita</em><br>Pramuka Toba.</h1>
-        <p>Temukan informasi kegiatan, jalin kebersamaan, dan terus belajar kepramukaan. Dari Kabupaten Toba, untuk generasi yang siap mengabdi.</p>
-        <div class="hero-actions"><a href="#kegiatan" class="button gold">Jelajahi Kegiatan <span aria-hidden="true">↗</span></a><a href="#buku" class="button outline">Buku Pramuka <span aria-hidden="true">→</span></a></div>
-      </div><div class="hero-illustration"><img src="/assets/hero-toba.svg" alt="Ilustrasi alam pegunungan dan danau di kawasan Toba dengan tenda perkemahan" /><div class="hero-caption">Semangat kepramukaan dari Toba</div></div></div>
-    <div class="stat-strip"><div class="stat"><span class="stat-icon">✦</span><div><b>${state.events.length}</b><span>Publikasi kegiatan bersumber</span></div></div>
-      <div class="stat"><span class="stat-icon">▤</span><div><b>${state.materialsCount}</b><span>Materi terbit</span></div></div>
-      <div class="stat"><span class="stat-icon">◎</span><div><b>3 cakupan</b><span>Toba, Sumut, dan Nasional</span></div></div></div>
-    </div>
-    <section class="section container"><div class="section-head"><div><span class="eyebrow">AGENDA KE DEPAN</span><h2 class="section-title">Kegiatan yang akan datang</h2><p class="section-subtitle">Pendaftaran dibuka setelah informasi acara diterbitkan dan dikonfirmasi oleh pengelola.</p></div><a class="link-inline" href="#kegiatan">Semua kegiatan ↗</a></div>
-       ${gridOrEmpty(upcomingEvents,'Belum ada agenda mendatang yang diumumkan melalui portal ini. Pengelola akan menerbitkan kegiatan setelah informasi dan tautan sumber diperiksa.')}</section>
-    <section class="value-section"><div class="container"><div class="section-head"><div><span class="eyebrow">DI SINI KITA BERTUMBUH</span><h2 class="section-title">Belajar. Berkarya. Mengabdi.</h2><p class="section-subtitle">Ruang digital untuk menyatukan informasi kegiatan dan pembelajaran yang bermanfaat.</p></div></div>
-      <div class="values"><div class="value-card"><div class="value-number">01</div><h3>Informasi yang dapat ditelusuri</h3><p>Setiap agenda publik perlu mencantumkan sumber yang bisa diperiksa kembali.</p></div><div class="value-card"><div class="value-number">02</div><h3>Belajar sesuai golongan</h3><p>Mulai dari Siaga hingga Pandega, serta materi pengenalan kecakapan Garuda.</p></div><div class="value-card"><div class="value-number">03</div><h3>Koneksi dengan kegiatan</h3><p>Pendaftar bisa mengirimkan keikutsertaan dan memantau statusnya melalui akun.</p></div></div></div></section>
-    <section class="section container"><div class="section-head"><div><span class="eyebrow">CERITA KEGIATAN</span><h2 class="section-title">Jejak kegiatan terdahulu</h2><p class="section-subtitle">Dokumentasi informasi kegiatan yang sudah berlangsung dan memiliki rujukan publik.</p></div><a class="link-inline" href="#kegiatan">Lihat arsip ↗</a></div>${gridOrEmpty(past,'Belum ada kegiatan lampau yang tersedia.')}</section>
-    <section class="container" style="padding-bottom:40px"><div class="feature-banner"><div><span class="eyebrow">RUANG BELAJAR</span><h2>Bekal kepramukaan, kapan pun kamu ingin belajar.</h2><p>Materi ringkas dari nilai dasar, keterampilan, kepemimpinan, sampai pengabdian.</p></div><a href="#buku" class="button gold">Buka Buku Pramuka ↗</a></div></section>
-    <section class="container" style="padding:12px 0 45px"><div class="notice">Portal ini merupakan prototipe komunitas, bukan kanal resmi Kwarcab Toba. Untuk setiap kegiatan, pastikan kembali informasi pada tautan sumber atau panitia yang berwenang.</div></section>`;
+  return `<section class="home-hero"><div class="home-hero-inner"><div class="home-hero-copy"><span class="eyebrow">SALAM PRAMUKA</span><h1>Bertumbuh bersama.<br>Mengabdi untuk Indonesia.</h1><p>Ruang bersama anggota dan pengurus kwartir untuk terhubung, berkegiatan, dan memberi dampak nyata.</p><div class="hero-actions"><a href="#kegiatan?filter=mendatang" class="button">Jelajahi kegiatan <span aria-hidden="true">→</span></a><a href="#buku" class="button outline">Kenali Pramuka</a></div></div><div class="home-hero-image"><img src="/assets/hero-toba.svg" alt="Ilustrasi alam dan kegiatan Pramuka di Toba" /><div class="image-caption"><small>SATU JANJI, BANYAK AKSI.</small><strong>Bersama, setiap langkah menjadi berarti.</strong></div></div></div></section>
+    <nav class="quick-links container" aria-label="Jelajahi portal"><a href="#kegiatan?filter=mendatang"><span>♧</span><strong>Kegiatan mendatang</strong><small>Temukan pengalaman baru</small><b aria-hidden="true">→</b></a><a href="#akun"><span>♙</span><strong>Akun anggota</strong><small>Pantau pendaftaran dan akses layanan</small><b aria-hidden="true">→</b></a><a href="#buku"><span>▤</span><strong>Buku Pramuka</strong><small>Buka untuk terus bertumbuh</small><b aria-hidden="true">→</b></a><a href="#dkc"><span>♧</span><strong>DKC</strong><small>Kenali Dewan Kerja Cabang</small><b aria-hidden="true">→</b></a></nav>
+    <section class="home-agenda-section"><div class="container"><div class="home-agenda-grid"><div><div class="section-heading-row"><div><span class="eyebrow">LANGKAH BAIK BERIKUTNYA</span><h2>Saatnya ikut ambil bagian.</h2><p>Informasi kegiatan yang terverifikasi untuk anggota Pramuka.</p></div><a class="link-inline" href="#kegiatan?filter=mendatang">Lihat agenda <span aria-hidden="true">→</span></a></div><div class="agenda-list">${upcomingEvents.length?upcomingEvents.map(agendaRow).join(''):'<div class="agenda-empty">Belum ada agenda mendatang yang diumumkan oleh pengelola.</div>'}</div></div><aside class="home-notice"><span class="eyebrow">PAPAN PENGUMUMAN</span><h3>Informasi untuk langkah yang lebih siap.</h3><strong>Akun untuk layanan anggota</strong><p>Gunakan akun untuk membaca materi dan memantau pendaftaran kegiatan.</p><a href="#akun">Buka Akun Saya <span aria-hidden="true">→</span></a></aside></div></div></section>
+    <section class="archive-section"><div class="container"><div class="section-heading-row"><div><span class="eyebrow">JEJAK KEGIATAN</span><h2>Cerita dari kegiatan berlalu.</h2></div><a class="link-inline" href="#kegiatan?filter=selesai">Semua arsip <span aria-hidden="true">→</span></a></div>${gridOrEmpty(past,'Belum ada kegiatan lampau yang tersedia.','Belum ada arsip')}</div></section>
+    <section class="action-banner"><div class="container"><div><h2>Siap melanjutkan pengabdian?</h2><p>Akses akun Anda dan temukan ruang untuk ikut berkontribusi.</p></div><a class="button light-button" href="#akun">Buka Akun Saya <span aria-hidden="true">↗</span></a></div></section>
+    <section class="container home-disclaimer"><div class="notice">Portal komunitas ini bukan kanal resmi Kwarcab Toba. Periksa informasi kegiatan melalui sumber dan panitia yang berwenang.</div></section>`;
 }
 function eventsPage(){
+  const isPast=state.filter==='selesai';
   const filtered=state.events.filter(e=>
-    (state.filter==='semua'||(state.filter==='mendatang'?upcoming(e):!upcoming(e)))&&
+    (state.filter==='semua'||(isPast?!upcoming(e):upcoming(e)))&&
     (state.scope==='Semua'||e.scope===state.scope)&&
-    (e.title+' '+e.description+' '+e.location).toLowerCase().includes(state.query.toLowerCase()));
-  return `${bannerHead('Jelajahi kegiatan Pramuka','Informasi kegiatan Kabupaten Toba, Kwarda Sumatera Utara, dan acara nasional yang memiliki kaitan dengan Toba.','Kegiatan')}
-    <section class="section container" style="padding-top:15px"><div class="filters"><div class="segmented" role="group" aria-label="Filter waktu">
-       ${[['semua','Semua'],['mendatang','Mendatang'],['selesai','Selesai']].map(([v,t])=>`<button type="button" data-filter="${v}" class="${state.filter===v?'selected':''}">${t}</button>`).join('')}</div>
-       <select class="select filter-select" id="scope-filter" aria-label="Filter cakupan">${['Semua','Toba','Sumut','Nasional'].map(x=>`<option value="${h(x)}" ${x===state.scope?'selected':''}>${x==='Semua'?'Semua cakupan':x==='Sumut'?'Kwarda Sumut':x}</option>`).join('')}</select>
-       <label class="search"><span>⌕</span><input class="text-input" id="event-search" placeholder="Cari kegiatan..." value="${h(state.query)}" aria-label="Cari kegiatan" /></label></div>
-       <div id="event-results">${gridOrEmpty(filtered,'Tidak ada kegiatan yang cocok dengan filter. Coba kata kunci atau cakupan lain.','Kegiatan tidak ditemukan')}</div>
-       <div class="notice" style="margin-top:22px">Kegiatan tingkat Kwarda atau nasional hanya layak dimasukkan jika relevansinya untuk Toba dapat dijelaskan. Tautan sumber tersedia di halaman detail.</div>
+    (e.title+' '+e.description+' '+e.location).toLowerCase().includes(state.query.toLowerCase()))
+    .sort((a,b)=>isPast?b.date.localeCompare(a.date):a.date.localeCompare(b.date));
+  const featured=filtered[0];
+  return `<section class="page-hero event-page-hero"><div class="container"><div class="crumbs"><a href="#beranda">Beranda</a><span>›</span><span>Kegiatan</span><span>›</span><span>${isPast?'Sudah berlalu':'Akan datang'}</span></div><span class="eyebrow">${isPast?'ARSIP KEGIATAN':'AGENDA KEGIATAN'}</span><h1>${isPast?'Jejak langkah, cerita pengabdian.':'Siapkan langkah baik berikutnya.'}</h1><p>${isPast?'Merawat kenangan, mengambil pelajaran, dan membawa semangatnya ke langkah berikutnya.':'Temukan ruang untuk belajar, bertemu, dan memberi dampak bersama anggota lainnya.'}</p><small>${isPast?'Arsip informasi kegiatan · Sumber rujukan tersedia pada halaman detail.':'Agenda terverifikasi · Periksa kembali informasi kepada penyelenggara.'}</small></div></section>
+    <section class="container event-browser">
+      ${featured?featuredEvent(featured,isPast?'CERITA PILIHAN / KEGIATAN':'KEGIATAN TERDEKAT'):empty(isPast?'Belum ada arsip kegiatan yang cocok dengan pilihan Anda.':'Belum ada agenda mendatang yang dipublikasikan. Pengelola dapat menambahkan kegiatan setelah informasi dikonfirmasi.','Belum ada kegiatan')}
+      <div class="event-controls"><div class="event-tabs" role="group" aria-label="Filter waktu"><button type="button" data-filter="selesai" class="${isPast?'selected':''}">Sudah berlalu</button><button type="button" data-filter="mendatang" class="${!isPast?'selected':''}">Akan datang</button></div><div class="event-filters"><label class="search"><span>⌕</span><input class="text-input" id="event-search" placeholder="Cari kegiatan..." value="${h(state.query)}" aria-label="Cari kegiatan" /></label><select class="select filter-select" id="scope-filter" aria-label="Filter cakupan">${['Semua','Toba','Sumut','Nasional'].map(x=>`<option value="${h(x)}" ${x===state.scope?'selected':''}>${x==='Semua'?'Semua kategori':x==='Sumut'?'Kwarda Sumut':x}</option>`).join('')}</select></div></div>
+      <div class="agenda-archive-layout"><div><div class="section-heading-row compact"><h2>${isPast?'Cerita kegiatan lainnya':'Agenda berikutnya'}</h2><span>${filtered.length} ${isPast?'catatan arsip':'kegiatan'}</span></div>${isPast?gridOrEmpty(filtered.slice(featured?1:0),'Tidak ada kegiatan yang cocok dengan filter.','Arsip kegiatan'):filtered.length>1?`<div class="agenda-list">${filtered.slice(1).map(agendaRow).join('')}</div>`:'<div class="agenda-empty">Ikuti kanal pengumuman resmi untuk kabar kegiatan berikutnya.</div>'}</div><aside class="event-sidebar"><span class="eyebrow">${isPast?'CATATAN ARSIP':'SEBELUM BERKEGIATAN'}</span><h3>${isPast?'Setiap langkah memberi pelajaran.':'Siap ikut ambil bagian?'}</h3><ol>${(isPast?['Kenang proses dan kebersamaan','Catat hal yang dipelajari','Bawa pengalaman ke langkah berikutnya']:['Lengkapi profil anggota','Baca informasi kegiatan','Ikuti arahan panitia']).map((item,i)=>`<li><b>0${i+1}</b><span>${item}</span></li>`).join('')}</ol><a class="link-inline" href="${isPast?'#beranda':'#akun'}">${isPast?'Kembali ke beranda':'Buka Akun Saya'} <span aria-hidden="true">→</span></a></aside></div>
+      <p class="event-page-note">Informasi agenda ditampilkan setelah diperiksa oleh pengelola. Hubungi panitia untuk memastikan rincian dan persyaratan kegiatan.</p>
     </section>`;
 }
 async function eventDetail(id){
@@ -105,14 +105,18 @@ async function eventDetail(id){
 }
 function dkcPage(){
   const contacts=[['instagram','Instagram','IG','Lihat akun Instagram'],['facebook','Facebook','f','Lihat halaman Facebook'],['tiktok','TikTok','♪','Lihat akun TikTok'],['youtube','YouTube','▶','Lihat kanal YouTube'],['whatsapp','WhatsApp','WA','Hubungi via WhatsApp'],['email','Email','@','Kirim email']];
-  return `${bannerHead('DKC Toba','Ruang untuk menemukan informasi Dewan Kerja Cabang dan kanal komunikasi yang telah dikonfirmasi pengelola.','DKC')}
-    <section class="container" style="padding-bottom:68px"><div class="dkc-intro"><div><span class="eyebrow" style="color:#f6d287">MENGENAL DKC</span><h2>Dewan Kerja Cabang Toba</h2><p>Dewan Kerja merupakan wadah pembinaan Pramuka Penegak dan Pandega. Bagian ini disiapkan untuk tautan media sosial serta kontak yang dikonfirmasi oleh pengurus DKC Toba.</p></div><div class="dkc-emblem"><img src="/assets/tunas-kelapa.svg" alt="Lambang tunas kelapa" /><strong>PRAMUKA TOBA</strong><div style="font-size:11px;margin-top:8px">Terhubung • Berkolaborasi • Mengabdi</div></div></div>
-      <div class="section-head"><div><span class="eyebrow">TERHUBUNG</span><h2 class="section-title">Media sosial dan kontak</h2><p class="section-subtitle">Tombol kontak hanya aktif jika alamatnya sudah dimasukkan oleh admin.</p></div></div>
+  const roles=['Ketua','Wakil Ketua','Sekretaris','Bendahara'];
+  return `<section class="split-page-hero dkc-hero"><div class="container split-page-inner"><div class="split-page-copy"><div class="crumbs"><a href="#beranda">Beranda</a><span>›</span><span>DKC</span></div><span class="eyebrow">DEWAN KERJA CABANG</span><h1>Ruang bertumbuh.<br>Wadah berkarya.</h1><p>Mengenal DKC dan semangat kolaborasi Pramuka Penegak dan Pandega di tingkat cabang.</p><span class="text-link">Dari kita, untuk gerakan kita. <span aria-hidden="true">↗</span></span></div><div class="split-page-image"><img src="/assets/hero-toba.svg" alt="Ilustrasi kegiatan kepramukaan bersama" /><span>Ilustrasi Pramuka Toba · bukan dokumentasi pengurus</span></div></div></section>
+    <section class="container dkc-content"><div class="section-heading-row"><div><span class="eyebrow">MENGENAL DKC</span><h2>Bersama menggerakkan<br>Pramuka Penegak dan Pandega.</h2></div><p>Wadah pengembangan kepemimpinan, kebersamaan, dan pengabdian yang mendukung kegiatan di tingkat cabang.</p></div>
+      <div class="dkc-pillars"><article><small>01</small><h3>Kepemimpinan</h3><p>Belajar mengambil peran, membangun tim, dan tumbuh melalui pengalaman.</p></article><article><small>02</small><h3>Kolaborasi</h3><p>Menghubungkan gagasan anggota dengan ruang berkarya bersama.</p></article><article><small>03</small><h3>Pengabdian</h3><p>Mendorong kegiatan yang bermanfaat bagi lingkungan dan masyarakat.</p></article></div>
+      <div class="section-heading-row board-heading"><div><h2>Kepengurusan DKC</h2><p>Nama cabang, masa bakti, dan data pengurus belum dipublikasikan.</p></div></div>
+      <div class="dkc-board"><div class="board-table"><div class="board-table-head"><span>POSISI</span><span>PENGURUS</span></div>${roles.map(role=>`<div class="board-row"><strong>${role}</strong><span>Belum dipublikasikan</span></div>`).join('')}</div><aside class="board-note"><small>RUANG INFORMASI</small><h3>Kenali orangnya.<br>Ikuti gerakannya.</h3><p>Profil ini akan dilengkapi dengan susunan pengurus, masa bakti, dan program kerja yang telah dipublikasikan secara resmi.</p><span>Kontak resmi akan ditambahkan pengurus.</span></aside></div>
+      <div class="section-heading-row contacts-heading"><div><span class="eyebrow">TERHUBUNG</span><h2>Media sosial dan kontak</h2><p>Tombol kontak aktif hanya jika alamatnya sudah dikonfirmasi pengelola.</p></div></div>
       <div class="contact-grid">${contacts.map(([key,title,icon,action])=>{
         const value=state.settings[key]||'';
         const target=key==='whatsapp'?`https://wa.me/${encodeURIComponent(value)}`:key==='email'?`mailto:${encodeURIComponent(value)}`:value;
         return `<div class="contact-card"><div class="contact-icon">${icon}</div><h3>${title}</h3><p>${value?(key==='whatsapp'?('+'+h(value)):key==='email'?h(value):'Kanal komunikasi terdaftar'):'Belum dikonfirmasi oleh pengelola.'}</p>${value?`<a href="${key==='email'?h(target):href(target)}" ${key==='email'?'':'target="_blank" rel="noopener noreferrer"'}>${action} ↗</a>`:'<span class="unavailable">Belum tersedia</span>'}</div>`;
-      }).join('')}</div><div class="notice" style="margin-top:25px">Identitas akun dan nomor WhatsApp tidak diisi secara otomatis agar tidak mengarahkan pengunjung ke orang yang salah. Admin dapat mengisinya dari Panel Admin setelah mendapat konfirmasi pengurus.</div></section>`;
+      }).join('')}</div><div class="notice dkc-notice">Identitas akun dan nomor WhatsApp tidak diisi secara otomatis agar tidak mengarahkan pengunjung ke orang yang salah. Admin dapat mengisinya dari Panel Admin setelah mendapat konfirmasi pengurus.</div></section>`;
 }
 function authPage(register=false){
   const target=new URLSearchParams((location.hash.split('?')[1]||'')).get('next')||'akun';
@@ -137,13 +141,16 @@ async function bookPage(){
   await ensureMaterials();
   const list=state.materials.filter(m=>(state.bookCategory==='Semua'||m.category===state.bookCategory)&&
     (m.title+' '+m.summary).toLowerCase().includes(state.bookQuery.toLowerCase()));
-  return `${bannerHead('Buku Pramuka Digital','Baca materi dan latihan langsung di website ini, dikelompokkan menurut golongan.','Buku Pramuka')}
-    <section class="container" style="padding-bottom:65px"><div class="notice green" style="margin-bottom:23px">Koleksi ini merupakan rangkuman pilihan, bukan seluruh isi internet atau pengganti pedoman resmi. Garuda adalah jenjang penghargaan kecakapan, bukan golongan usia tersendiri. Periksa SKU/SKK dan petunjuk terbaru bersama pembina.</div>
-      <div class="library-tabs">${CATEGORY.map(x=>`<button class="category-btn ${state.bookCategory===x?'active':''}" type="button" data-category="${h(x)}">${h(x)}</button>`).join('')}</div>
-      <div class="filters"><label class="search"><span>⌕</span><input class="text-input" id="material-search" value="${h(state.bookQuery)}" placeholder="Cari materi pembelajaran..." aria-label="Cari materi" /></label><span class="small subtle">${list.length} materi ditemukan</span></div>
-      <div id="material-results">${materialCards(list)}</div></section>`;
+  return `<section class="book-hero"><div class="container book-hero-inner"><div><div class="crumbs"><a href="#beranda">Beranda</a><span>›</span><span>Buku Pramuka</span></div><span class="eyebrow">BEKAL UNTUK TERUS BERTUMBUH</span><h1>Buku Pramuka</h1><p>Temukan panduan, keterampilan, dan inspirasi untuk menemani setiap langkah pengabdian.</p></div><blockquote>Baca.<br>Pahami.<br>Amalkan.</blockquote></div></section>
+    <section class="container book-library"><div class="book-toolbar"><label class="search"><span>⌕</span><input class="text-input" id="material-search" value="${h(state.bookQuery)}" placeholder="Cari judul buku atau topik..." aria-label="Cari materi" /></label><span class="book-count">${list.length} materi</span></div>
+      <div class="library-tabs">${CATEGORY.map(x=>`<button class="category-btn ${state.bookCategory===x?'active':''}" type="button" data-category="${h(x)}">${h(x==='Semua'?'Semua':x)}</button>`).join('')}</div>
+      <div class="book-collection-head"><div><h2>Koleksi untuk anggota dan pengurus</h2><p>Ringkasan materi tersedia di website ini dan disusun menurut golongan.</p></div><span>${list.length} materi</span></div>
+      <div id="material-results">${materialCards(list)}</div>
+      <div class="study-steps"><div><span>01</span><strong>Pilih materi</strong><small>Sesuaikan dengan kebutuhan latihan.</small></div><div><span>02</span><strong>Pelajari bersama</strong><small>Diskusikan dengan satuan atau pembina.</small></div><div><span>03</span><strong>Praktikkan</strong><small>Bawa pengetahuan ke aksi nyata.</small></div></div>
+      <p class="book-note">Koleksi ini merupakan rangkuman pilihan, bukan pengganti pedoman resmi. Periksa SKU/SKK dan petunjuk terbaru bersama pembina.</p></section>
+      <section class="action-banner"><div class="container"><div><h2>Pengetahuan tumbuh saat dibagikan.</h2><p>Punya usulan materi? Sampaikan kepada pengurus kwartir.</p></div><a class="button light-button" href="#dkc">Hubungi pengurus <span aria-hidden="true">↗</span></a></div></section>`;
 }
-function materialCards(list){return list.length?`<div class="cards">${list.map(m=>`<article class="material-card"><div class="material-icon">${ICONS[m.category]||'✦'}</div><span class="pill" style="align-self:start;margin-bottom:13px">${h(m.category)}</span><h3>${h(m.title)}</h3><p>${h(m.summary)}</p><a href="#materi/${h(m.id)}">Baca materi ↗</a></article>`).join('')}</div>`:empty('Materi tidak ditemukan. Ubah kata kunci atau pilih golongan lain.','Tidak ada materi yang cocok');}
+function materialCards(list){return list.length?`<div class="book-grid">${list.map(m=>`<article class="book-card"><div class="book-cover book-cover-${h(m.category).toLowerCase()}"><small>PRAMUKA</small><strong>${h(m.title)}</strong><span>MATERI DIGITAL</span></div><div class="book-card-copy"><span class="eyebrow">${h(m.category)}</span><h3>${h(m.title)}</h3><p>${h(m.summary)}</p><a href="#materi/${h(m.id)}">Baca materi <span aria-hidden="true">↗</span></a></div></article>`).join('')}</div>`:empty('Materi tidak ditemukan. Ubah kata kunci atau pilih golongan lain.','Tidak ada materi yang cocok');}
 async function materialDetail(id){
   if(!state.user){go('login?next=buku');return '';}
   let material;
@@ -157,13 +164,13 @@ async function materialDetail(id){
 async function accountPage(){
   if(!state.user){go('login?next=akun');return '';}
   const data=await api('/api/me');state.user=data.user;state.registrations=data.registrations;
-  return `${bannerHead('Akun Saya','Lihat identitas akun dan pantau status pendaftaran kegiatan yang kamu kirimkan.','Akun Saya')}
-    <section class="container" style="padding-bottom:60px"><div class="account-grid"><div class="profile-card"><div class="avatar">${h((state.user.name||'P')[0].toUpperCase())}</div><span class="pill pill-gold">${state.user.role==='admin'?'Administrator':'Anggota Terdaftar'}</span>
-      <h2>${h(state.user.name)}</h2><p>${h(state.user.email)}</p>${state.user.role==='admin'?'<a href="#admin" class="button gold sm">Buka Panel Admin ↗</a>':''}</div>
-      <div class="paper"><h2 style="font-size:24px">Pendaftaran kegiatan saya</h2><p class="section-subtitle" style="margin-bottom:24px">Status pendaftaran akan diperbarui setelah pengelola memeriksa data.</p>
-      ${data.registrations.length?`<div class="reg-list">${data.registrations.map(r=>`<div class="reg-item"><div><a class="link-inline" href="#acara/${h(r.event_id)}">${h(r.title)}</a><p>${h(dateId(r.date))} • ${h(r.location)}</p></div><span class="pill ${r.status==='diterima'?'':r.status==='ditolak'?'pill-red':'pill-gold'}">${h(r.status)}</span></div>`).join('')}</div>`:
-        empty('Kamu belum mendaftar kegiatan. Cari kegiatan yang membuka pendaftaran dan kirim formulirnya.','Belum ada pendaftaran')}
-      <div style="margin-top:23px"><a href="#kegiatan" class="button outline sm">Cari kegiatan ↗</a></div></div></div></section>`;
+  return `<section class="account-page-hero"><div class="container"><div class="crumbs"><a href="#beranda">Beranda</a><span>›</span><span>Akun Saya</span></div><h1>Akun Saya</h1><p>Kelola identitas dan perjalanan Anda di Pramuka.</p></div></section>
+    <section class="container account-dashboard"><div class="account-side-column"><nav class="account-menu" aria-label="Menu akun"><a class="selected" href="#akun"><span>♙</span>Profil saya</a><a href="#kegiatan?filter=mendatang"><span>▣</span>Kegiatan Pramuka</a><button type="button" data-action="logout"><span>↪</span>Keluar</button></nav><aside class="account-help"><strong>Butuh bantuan?</strong><p>Hubungi pengurus kwartir untuk pembaruan data keanggotaan.</p><a href="#dkc">Hubungi pengurus <span aria-hidden="true">↗</span></a></aside></div>
+      <div class="account-main"><section class="paper profile-details"><span class="eyebrow">DATA PRIBADI</span><h2>Profil anggota</h2><p>Informasi akun yang digunakan untuk layanan keanggotaan.</p><div class="profile-fields"><div><small>Nama lengkap</small><strong>${h(state.user.name)}</strong></div><div><small>Alamat email</small><strong>${h(state.user.email)}</strong></div><div><small>Status akun</small><strong>${state.user.role==='admin'?'Administrator':'Anggota terdaftar'}</strong></div></div>${state.user.role==='admin'?'<a href="#admin" class="button">Buka Panel Admin <span aria-hidden="true">→</span></a>':''}</section>
+      <section class="paper account-registrations" id="registrations"><span class="eyebrow">KEGIATAN SAYA</span><h2>Pendaftaran kegiatan saya</h2><p>Status pendaftaran diperbarui setelah pengelola memeriksa data.</p>
+        ${data.registrations.length?`<div class="reg-list">${data.registrations.map(r=>`<div class="reg-item"><div><a class="link-inline" href="#acara/${h(r.event_id)}">${h(r.title)}</a><p>${h(dateId(r.date))} · ${h(r.location)}</p></div><span class="pill ${r.status==='diterima'?'':r.status==='ditolak'?'pill-red':'pill-gold'}">${h(r.status)}</span></div>`).join('')}</div>`:empty('Cari kegiatan yang membuka pendaftaran dan kirim formulirnya.','Belum ada pendaftaran')}
+        <a href="#kegiatan?filter=mendatang" class="text-link">Jelajahi kegiatan <span aria-hidden="true">→</span></a></section></div>
+      <aside class="account-side-info"><div class="member-card"><span>PRAMUKA</span><small>KARTU ANGGOTA DIGITAL</small><h3>Identitas untuk setiap langkah pengabdian.</h3><span class="member-status">Belum tersedia</span></div><div class="profile-status"><h3>Profil anggota</h3><p>Informasi profil terhubung dengan akun Anda.</p><ul><li>Nama akun tersimpan</li><li>Email akun tersimpan</li><li>Data keanggotaan resmi belum tersedia</li></ul></div><blockquote>Satyaku Kudarmakan,<br>Darmaku Kubaktikan.</blockquote></aside></section>`;
 }
 function adminSidebar(){return [['kegiatan','Kelola Kegiatan'],['pendaftar','Data Pendaftar'],['materi','Materi Buku'],['kontak','Kontak DKC']].map(([key,label])=>`<button type="button" data-admin-tab="${key}" class="${state.adminTab===key?'active':''}">${label}</button>`).join('');}
 function adminEventsView(d){
@@ -225,10 +232,12 @@ function notFound(title='Halaman tidak ditemukan'){
   return `${bannerHead(title,'Alamat yang kamu buka tidak tersedia atau belum diizinkan untuk akun ini.','Tidak ditemukan')}<div class="container" style="padding:0 0 120px"><a class="button" href="#beranda">← Kembali ke Beranda</a></div>`;
 }
 async function render(){
-  updateNav();
   const raw=location.hash.replace(/^#/,'')||'beranda';
-  const route=raw.split('?')[0];
+  const [route,queryString='']=raw.split('?');
   const [page,id]=route.split('/');
+  const requestedFilter=new URLSearchParams(queryString).get('filter');
+  if(page==='kegiatan'&&['semua','mendatang','selesai'].includes(requestedFilter))state.filter=requestedFilter;
+  updateNav();
   try{
     let html='';
     switch(page){
@@ -279,7 +288,7 @@ window.addEventListener('hashchange',render);
 document.addEventListener('click',async e=>{
   const el=e.target.closest('[data-action],[data-filter],[data-category],[data-admin-tab],[data-edit-event],[data-edit-material],[data-save-reg]');
   if(!el)return;
-  if(el.hasAttribute('data-filter')){state.filter=el.dataset.filter;await render();return;}
+  if(el.hasAttribute('data-filter')){state.filter=el.dataset.filter;go(`kegiatan?filter=${encodeURIComponent(state.filter)}`);return;}
   if(el.hasAttribute('data-category')){state.bookCategory=el.dataset.category;await render();return;}
   if(el.hasAttribute('data-admin-tab')){state.adminTab=el.dataset.adminTab;await render();return;}
   if(el.hasAttribute('data-edit-event')){const x=state.adminData?.events.find(v=>v.id===el.dataset.editEvent);setEventForm(x);return;}
